@@ -190,7 +190,28 @@ bool Chessboard::checkMove(QPoint from, QPoint to) {
             return false;
     }
     if (piece->type == Piece::pawn) {
-
+        if (abs((from.x()-to.x())*(from.y()-to.y())) == 1) {
+            if (squares[to.y()][to.x()]->piece==nullptr)
+                return false;
+            if (squares[to.y()][to.x()]->piece->color == piece->color)
+                return false;
+            if (piece->color==Piece::black && from.y() > to.y())
+                return false;
+            if (piece->color==Piece::white && from.y() < to.y())
+                return false;
+        }
+        else {
+            if (to.x()!=from.x())
+                return false;
+            if (piece->color == Piece::black) {
+                if (squares[to.y()][to.x()]->piece!=nullptr || !(to.y()-from.y()==1 || to.y()-from.y()==2 && from.y()==2 && squares[3][from.x()]->piece==nullptr))
+                    return false;
+            }
+            else {
+                if (squares[to.y()][to.x()]->piece!=nullptr || !(to.y()-from.y()==-1 || to.y()-from.y()==-2 && from.y()==7 && squares[6][from.x()]->piece==nullptr))
+                    return false;
+            }
+        }
     }
     return true;
 }
