@@ -6,6 +6,7 @@ Chessboard::Chessboard(QObject *parent)
 {
 
     w = parent;
+    draggingPiece = nullptr;
 
     currentPlayer = blackPlayer;
 

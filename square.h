@@ -6,6 +6,8 @@
 #include <QColor>
 #include <QPen>
 #include "piece.h"
+#include <QHoverEvent>
+#include <QGraphicsSceneHoverEvent>
 
 class Square : public QGraphicsRectItem
 {
@@ -18,6 +20,8 @@ public:
     int boardX, boardY;
 
     Piece *piece;
+
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
 
 };
 

@@ -33,6 +33,7 @@ void MainWindow::setupUI() {
     view->setScene(board);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->viewport()->setAcceptDrops(true);
 
     //QPushButton *castlingBtn;
     //QLabel *messageLabel;

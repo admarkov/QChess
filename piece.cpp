@@ -1,10 +1,14 @@
 #include "piece.h"
+#include "chessboard.h"
+#include "mainwindow.h"
 
 #include <QPixmap>
+#include <QDebug>
 
 Piece::Piece(PieceColor Color, PieceType Type, QGraphicsItem *parent)
     :QGraphicsPixmapItem(parent)
 {
+
     type = Type;
     color = Color;
     setOffset(9,10);
@@ -36,4 +40,45 @@ Piece::Piece(PieceColor Color, PieceType Type, QGraphicsItem *parent)
         if (type==pawn)
             setPixmap(QPixmap(":/Images/pawn_black.svg"));
     }
+}
+
+/*void Piece::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    Chessboard *board = (Chessboard*)(scene());
+    MainWindow *W = (MainWindow*)(board->w);
+    board->status = Chessboard::dragging;
+    event->accept();
+}*/
+
+void Piece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+    Chessboard *board = (Chessboard*)(scene());
+    board->draggingPiece = nullptr;
+    int boardX = (pos().x() + 40)/80+1,
+        boardY = (pos().y() +40)/80+1;
+    if (boardX < 1) boardX = 1;
+    if (boardY < 1) boardY = 1;
+    if (boardX > 8) boardX = 8;
+    if (boardY > 8) boardY = 8;
+    setPos(boardX*80 - 80, boardY*80 - 80);
+    board->toggleMove();
+    QGraphicsPixmapItem::mouseReleaseEvent(event);
+}
+void Piece::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+    Chessboard *board = (Chessboard*)(scene());
+    int boardX = (pos().x() + 40)/80+1,
+        boardY = (pos().y() +40)/80+1;
+    if (boardX < 1) boardX = 1;
+    if (boardY < 1) boardY = 1;
+    if (boardX > 8) boardX = 8;
+    if (boardY > 8) boardY = 8;
+    if (board->draggingPiece != this) {
+        fromX = boardX;
+        fromY = boardY;
+        board->draggingPiece = this;
+    }
+    for (int i=1; i<=8; i++)
+        for (int j=1; j<=8; j++)
+            board->squares[i][j]->setPen(QPen(Qt::black));
+    Square *hoveredSquare = board->squares[boardY][boardX];
+    hoveredSquare->setPen(QPen(Qt::red));
+    QGraphicsPixmapItem::mouseMoveEvent(event);
 }

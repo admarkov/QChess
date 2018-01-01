@@ -14,11 +14,15 @@ public:
 
     enum PlayerType {blackPlayer, whitePlayer} currentPlayer;
 
+    enum BoardStatus {dragging, plain} status;
+
+    Piece *draggingPiece;
+    Square *hoveredSquare;
+
     Chessboard(QObject *parent);
 
     void toggleMove();
 
-private:
     QObject *w;
 
 };
