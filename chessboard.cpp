@@ -193,3 +193,13 @@ bool Chessboard::checkMove(QPoint from, QPoint to) {
     }
     return true;
 }
+
+void Chessboard::restoreSquares() {
+    for (int i=1; i<=8; i++)
+        for (int j=1; j<=8; j++) {
+            if (squares[i][j]->color == Square::black)
+                squares[i][j]->setBrush(QBrush(QColor("#78785a")));
+            else
+                squares[i][j]->setBrush(QBrush(QColor("#d3d39e")));
+        }
+}

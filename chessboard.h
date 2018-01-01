@@ -27,6 +27,8 @@ public:
 
     bool checkMove(QPoint from, QPoint to);
 
+    void restoreSquares();
+
 };
 
 #endif // CHESSBOARD_H

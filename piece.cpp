@@ -51,9 +51,7 @@ Piece::Piece(PieceColor Color, PieceType Type, QGraphicsItem *parent)
 
 void Piece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     Chessboard *board = (Chessboard*)(scene());
-    for (int i=1; i<=8; i++)
-        for (int j=1; j<=8; j++)
-            board->squares[i][j]->setPen(QPen(Qt::black));
+    board->restoreSquares();
     board->draggingPiece = nullptr;
     int boardX = (pos().x() + 40)/80+1,
         boardY = (pos().y() +40)/80+1;
@@ -85,13 +83,11 @@ void Piece::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
         fromY = boardY;
         board->draggingPiece = this;
     }
-    for (int i=1; i<=8; i++)
-        for (int j=1; j<=8; j++)
-            board->squares[i][j]->setPen(QPen(Qt::black));
+    board->restoreSquares();
     Square *hoveredSquare = board->squares[boardY][boardX];
     if (board->checkMove(QPoint(fromX, fromY), QPoint(boardX, boardY)))
-        hoveredSquare->setPen(QPen(Qt::green));
+        hoveredSquare->setBrush(QBrush(Qt::green));
     else
-        hoveredSquare->setPen(QPen(Qt::red));
+        hoveredSquare->setBrush(QBrush(Qt::red));
     QGraphicsPixmapItem::mouseMoveEvent(event);
 }
