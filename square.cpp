@@ -1,9 +1,5 @@
 #include "square.h"
 
-#include <QBrush>
-#include <QColor>
-#include <QPen>
-
 Square::Square(int X, int Y, SquareColor clr, QGraphicsItem *parent)
     :QGraphicsRectItem(parent)
 {

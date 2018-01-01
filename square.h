@@ -2,7 +2,9 @@
 #define SQUARE_H
 
 #include <QGraphicsRectItem>
-#include "square.h"
+#include <QBrush>
+#include <QColor>
+#include <QPen>
 
 class Square : public QGraphicsRectItem
 {

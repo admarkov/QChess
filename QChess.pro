@@ -27,9 +27,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     chessboard.cpp \
-    square.cpp
+    square.cpp \
+    piece.cpp
 
 HEADERS += \
         mainwindow.h \
     chessboard.h \
-    square.h
+    square.h \
+    piece.h
+
+RESOURCES += \
+    images.qrc
