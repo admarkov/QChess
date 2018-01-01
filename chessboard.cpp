@@ -1,5 +1,8 @@
 #include "chessboard.h"
 #include "mainwindow.h"
+#include <algorithm>
+
+using namespace std;
 
 Chessboard::Chessboard(QObject *parent)
     : QGraphicsScene(parent)
@@ -130,7 +133,43 @@ void Chessboard::toggleMove() {
 }
 
 bool Chessboard::checkMove(QPoint from, QPoint to) {
-    if (squares[to.y()][to.x()]->piece!=nullptr)
+    if (squares[to.y()][to.x()]->piece!=nullptr && squares[to.y()][to.x()]->piece->color == squares[from.y()][from.x()]->piece->color)
         return false;
+    if (to == from)
+        return false;
+    Piece *piece = squares[from.y()][from.x()]->piece;
+    if (piece->type == Piece::rook) {
+        if (to.x()!=from.x() && to.y()!=from.y())
+            return false;
+        if (to.x() == from.x()) {
+            int fromY = min(to.y(), from.y());
+            int toY = max(to.y(), from.y());
+            for (int i = fromY + 1; i<toY; i++)
+                if (squares[i][to.x()]->piece!=nullptr)
+                    return false;
+        }
+        else {
+            int fromX = min(to.x(), from.x());
+            int toX = max(to.x(), from.x());
+            for (int i = fromX + 1; i<toX; i++)
+                if (squares[to.y()][i]->piece!=nullptr)
+                    return false;
+        }
+    }
+    if (piece->type == Piece::knight) {
+
+    }
+    if (piece->type == Piece::bishop) {
+
+    }
+    if (piece->type == Piece::queen) {
+
+    }
+    if (piece->type == Piece::king) {
+
+    }
+    if (piece->type == Piece::pawn) {
+
+    }
     return true;
 }
