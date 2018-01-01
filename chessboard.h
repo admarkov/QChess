@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include "square.h"
+#include "piece.h"
 
 class Chessboard : public QGraphicsScene
 {
