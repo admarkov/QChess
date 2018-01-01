@@ -183,7 +183,40 @@ bool Chessboard::checkMove(QPoint from, QPoint to) {
         }
     }
     if (piece->type == Piece::queen) {
-
+        if (to.x()-from.x() == 0) {
+            int fromY = min(to.y(), from.y());
+            int toY = max(to.y(), from.y());
+            for (int i = fromY + 1; i<toY; i++)
+                if (squares[i][to.x()]->piece!=nullptr)
+                    return false;
+        }
+        else if (to.y() - from.y() == 0) {
+            int fromX = min(to.x(), from.x());
+            int toX = max(to.x(), from.x());
+            for (int i = fromX + 1; i<toX; i++)
+                if (squares[to.y()][i]->piece!=nullptr)
+                    return false;
+        }
+        else if (to.x()-from.x() == to.y()-from.y()) {
+            int fromX = min(to.x(), from.x());
+            int fromY = min(to.y(), from.y());
+            int toX = max(to.x(), from.x());
+            int toY = max(to.y(), from.y());
+            for (int i=1; i<toX - fromX; i++)
+                if (squares[fromY+i][fromX+i]->piece!=nullptr)
+                    return false;
+        }
+        else if (from.x()-to.x() == to.y() - from.y()) {
+            int fromX = min(to.x(), from.x());
+            int fromY = max(to.y(), from.y());
+            int toX = max(to.x(), from.x());
+            int toY = min(to.y(), from.y());
+            for (int i=1; i<toX - fromX; i++)
+                if (squares[fromY-i][fromX+i]->piece!=nullptr)
+                    return false;
+        }
+        else
+            return false;
     }
     if (piece->type == Piece::king) {
         if (abs(from.x()-to.x())>1 || abs(from.y()-to.y())>1)
