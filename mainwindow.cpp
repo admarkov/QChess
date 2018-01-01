@@ -17,10 +17,6 @@ void MainWindow::setupUI() {
 
     setWindowTitle("QChess");
 
-    for (int i=0 ;i<10; i++)
-        for (int j=0; j<10; j++)
-            squares[i][j] = nullptr;
-
     this->setFixedSize(w,h);
 
     centralWidget = new QWidget(this);
@@ -34,11 +30,5 @@ void MainWindow::setupUI() {
     view->setScene(board);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-    for (int y=1; y<=8; y++)
-        for (int x=1; x<=8; x++) {
-            squares[y][x] = new Square(x, y, (x+y)%2?Square::black:Square::white);
-            board->addItem(squares[y][x]);
-        }
 
 }

@@ -23,8 +23,6 @@ public:
     Chessboard *board;
     QGraphicsView *view;
 
-    Square* squares[10][10];
-
 private:
     void setupUI();
 };
