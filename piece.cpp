@@ -61,6 +61,8 @@ void Piece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     if (boardY > 8) boardY = 8;
     if (board->checkMove(QPoint(fromX, fromY), QPoint(boardX, boardY))) {
         setPos(boardX*80 - 80, boardY*80 - 80);
+        if (board->squares[boardY][boardX]->piece!=nullptr)
+            delete board->squares[boardY][boardX]->piece;
         board->squares[fromY][fromX]->piece = nullptr;
         board->squares[boardY][boardX]->piece = this;
         board->toggleMove();
@@ -85,8 +87,12 @@ void Piece::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     }
     board->restoreSquares();
     Square *hoveredSquare = board->squares[boardY][boardX];
-    if (board->checkMove(QPoint(fromX, fromY), QPoint(boardX, boardY)))
-        hoveredSquare->setBrush(QBrush(Qt::green));
+    if (board->checkMove(QPoint(fromX, fromY), QPoint(boardX, boardY))) {
+        if (board->squares[boardY][boardX]->piece!=nullptr)
+            hoveredSquare->setBrush(QBrush(Qt::yellow));
+        else
+            hoveredSquare->setBrush(QBrush(Qt::green));
+    }
     else
         hoveredSquare->setBrush(QBrush(Qt::red));
     QGraphicsPixmapItem::mouseMoveEvent(event);
