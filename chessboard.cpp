@@ -157,7 +157,8 @@ bool Chessboard::checkMove(QPoint from, QPoint to) {
         }
     }
     if (piece->type == Piece::knight) {
-
+        if (abs((from.x()-to.x()) * (from.y() - to.y())) != 2)
+            return false;
     }
     if (piece->type == Piece::bishop) {
 
