@@ -186,7 +186,8 @@ bool Chessboard::checkMove(QPoint from, QPoint to) {
 
     }
     if (piece->type == Piece::king) {
-
+        if (abs(from.x()-to.x())>1 || abs(from.y()-to.y())>1)
+            return false;
     }
     if (piece->type == Piece::pawn) {
 
