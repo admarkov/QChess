@@ -25,7 +25,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    chessboard.cpp \
+    square.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    chessboard.h \
+    square.h
