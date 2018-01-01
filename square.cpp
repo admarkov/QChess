@@ -4,6 +4,7 @@ Square::Square(int X, int Y, SquareColor clr, QGraphicsItem *parent)
     :QGraphicsRectItem(parent)
 {
 
+    piece = nullptr;
     boardX = X;
     boardY = Y;
     color = clr;

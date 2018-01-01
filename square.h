@@ -5,6 +5,7 @@
 #include <QBrush>
 #include <QColor>
 #include <QPen>
+#include "piece.h"
 
 class Square : public QGraphicsRectItem
 {
@@ -15,6 +16,8 @@ public:
     Square(int X, int Y, SquareColor clr, QGraphicsItem *parent = nullptr);
 
     int boardX, boardY;
+
+    Piece *piece;
 
 };
 

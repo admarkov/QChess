@@ -20,5 +20,26 @@ Chessboard::Chessboard(QObject *parent)
 }
 
 void Chessboard::toggleMove() {
-
+    if (currentPlayer == blackPlayer)
+        currentPlayer = whitePlayer;
+    else
+        currentPlayer = blackPlayer;
+    for (int i=1; i<=8; i++)
+        for (int j=1; j<=8; j++) {
+            if (squares[i][j]->piece!=nullptr) {
+                Piece *piece = squares[i][j]->piece;
+                if (currentPlayer == blackPlayer) {
+                    if (piece->color == Piece::white)
+                        piece->setFlag(QGraphicsItem::ItemIsMovable, false);
+                    else
+                        piece->setFlag(QGraphicsItem::ItemIsMovable, true);
+                }
+                else {
+                    if (piece->color == Piece::white)
+                        piece->setFlag(QGraphicsItem::ItemIsMovable, true);
+                    else
+                        piece->setFlag(QGraphicsItem::ItemIsMovable, false);
+                }
+            }
+        }
 }
