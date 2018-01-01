@@ -128,3 +128,9 @@ void Chessboard::toggleMove() {
             }
         }
 }
+
+bool Chessboard::checkMove(QPoint from, QPoint to) {
+    if (squares[to.y()][to.x()]->piece!=nullptr)
+        return false;
+    return true;
+}

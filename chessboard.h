@@ -25,6 +25,8 @@ public:
 
     QObject *w;
 
+    bool checkMove(QPoint from, QPoint to);
+
 };
 
 #endif // CHESSBOARD_H
