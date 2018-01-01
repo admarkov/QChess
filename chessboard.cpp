@@ -161,7 +161,26 @@ bool Chessboard::checkMove(QPoint from, QPoint to) {
             return false;
     }
     if (piece->type == Piece::bishop) {
-
+        if (abs(from.x()-to.x())!=abs(from.y()-to.y()))
+            return false;
+        if (from.x() < to.x() && from.y() < to.y() || from.x() > to.x() && from.y() > to.y()) {
+            int fromX = min(to.x(), from.x());
+            int fromY = min(to.y(), from.y());
+            int toX = max(to.x(), from.x());
+            int toY = max(to.y(), from.y());
+            for (int i=1; i<toX - fromX; i++)
+                if (squares[fromY+i][fromX+i]->piece!=nullptr)
+                    return false;
+        }
+        else {
+            int fromX = min(to.x(), from.x());
+            int fromY = max(to.y(), from.y());
+            int toX = max(to.x(), from.x());
+            int toY = min(to.y(), from.y());
+            for (int i=1; i<toX - fromX; i++)
+                if (squares[fromY-i][fromX+i]->piece!=nullptr)
+                    return false;
+        }
     }
     if (piece->type == Piece::queen) {
 
