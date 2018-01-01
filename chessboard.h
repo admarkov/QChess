@@ -7,6 +7,7 @@
 
 class Chessboard : public QGraphicsScene
 {
+
 public:
 
     Square* squares[10][10];
@@ -16,6 +17,9 @@ public:
     Chessboard(QObject *parent);
 
     void toggleMove();
+
+private:
+    QObject *w;
 
 };
 

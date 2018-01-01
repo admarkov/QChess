@@ -1,8 +1,12 @@
 #include "chessboard.h"
+#include "mainwindow.h"
 
 Chessboard::Chessboard(QObject *parent)
     : QGraphicsScene(parent)
 {
+
+    w = parent;
+
     currentPlayer = blackPlayer;
 
     for (int i=0 ;i<10; i++)
@@ -95,10 +99,15 @@ Chessboard::Chessboard(QObject *parent)
 }
 
 void Chessboard::toggleMove() {
-    if (currentPlayer == blackPlayer)
+    MainWindow *W = (MainWindow*)(w);
+    if (currentPlayer == blackPlayer) {
         currentPlayer = whitePlayer;
-    else
+        W->messageLabel->setText("Ходят белые");
+    }
+    else {
         currentPlayer = blackPlayer;
+        W->messageLabel->setText("Ходят черные");
+    }
     for (int i=1; i<=8; i++)
         for (int j=1; j<=8; j++) {
             if (squares[i][j]->piece!=nullptr) {

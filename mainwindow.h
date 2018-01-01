@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QGraphicsView>
+#include <QPushButton>
 #include "chessboard.h"
 #include "square.h"
 
@@ -22,6 +23,9 @@ public:
 
     Chessboard *board;
     QGraphicsView *view;
+
+    QPushButton *castlingBtn;
+    QLabel *messageLabel;
 
 private:
     void setupUI();
