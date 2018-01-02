@@ -61,8 +61,10 @@ void Piece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     if (boardY > 8) boardY = 8;
     if (board->checkMove(QPoint(fromX, fromY), QPoint(boardX, boardY))) {
         setPos(boardX*80 - 80, boardY*80 - 80);
-        if (board->squares[boardY][boardX]->piece!=nullptr)
+        if (board->squares[boardY][boardX]->piece!=nullptr) {
+            board->removeItem(board->squares[boardY][boardX]->piece);
             delete board->squares[boardY][boardX]->piece;
+        }
         board->squares[fromY][fromX]->piece = nullptr;
         board->squares[boardY][boardX]->piece = this;
         board->toggleMove();
