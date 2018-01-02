@@ -142,7 +142,7 @@ void Chessboard::toggleMove() {
 
 void Chessboard::GodsHelp() {
     /*
-     * Пожалуйста пусть функции не зацикливаются
+     *
 .______________________________________________.
 | [~~-__]        _______         [~~-__]       |
 | . . .-,    _-~~       ~~-_     .-,    ,      |
@@ -175,7 +175,7 @@ f| |       | |T\ \BegeHz \      /     /   ) \  |
      */
 }
 
-bool Chessboard::checkMove(QPoint from, QPoint to) {
+bool Chessboard::checkMove(QPoint from, QPoint to, bool forCheckCheck) {
     GodsHelp();
     if (squares[from.y()][from.x()]->piece == nullptr)
         return false;
@@ -292,6 +292,7 @@ bool Chessboard::checkMove(QPoint from, QPoint to) {
             }
         }
     }
+    if (!forCheckCheck) {
         bool good = true;
         Piece *fromBefore = squares[from.y()][from.x()]->piece;
         Piece *toBefore = squares[to.y()][to.x()]->piece;
@@ -303,6 +304,8 @@ bool Chessboard::checkMove(QPoint from, QPoint to) {
         squares[from.y()][from.x()]->piece = fromBefore;
         isCheckNow = true;
         return good;
+    }
+    return true;
 }
 
 bool Chessboard::isCheck() {
@@ -312,7 +315,7 @@ bool Chessboard::isCheck() {
             if (squares[i][j]->piece!=nullptr && squares[i][j]->piece->color != currentPlayer) {
                 for (int ii=1; ii<=8; ii++)
                     for (int jj=1; jj<=8; jj++) {
-                        if (squares[ii][jj]->piece != nullptr && squares[ii][jj]->piece->color==currentPlayer && squares[ii][jj]->piece->type == Piece::king && checkMove(QPoint(j,i), QPoint(jj, ii)))
+                        if (squares[ii][jj]->piece != nullptr && squares[ii][jj]->piece->color==currentPlayer && squares[ii][jj]->piece->type == Piece::king && checkMove(QPoint(j,i), QPoint(jj, ii), true))
                             return isCheckNow = true;
                     }
             }

@@ -27,7 +27,7 @@ public:
 
     QObject *w;
 
-    bool checkMove(QPoint from, QPoint to);
+    bool checkMove(QPoint from, QPoint to, bool forCheckCheck = false);
     bool isCheck();
 
     void restoreSquares();
