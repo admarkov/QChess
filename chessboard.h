@@ -11,6 +11,8 @@ class Chessboard : public QGraphicsScene
 public:
 
     bool isCheckNow;
+    bool noBlackLeftCastling, noBlackRightCastling;
+    bool noWhiteLeftCastling, noWhiteRightCastling;
 
     Square* squares[10][10];
 
@@ -36,6 +38,12 @@ public:
     void GodsHelp();
 
     void stopGame(QString message);
+
+    bool isLeftCastlingAble();
+    bool isRightCastlingAble();
+    bool checkCastlingPosition(int x, int y);
+    void leftCastling();
+    void rightCastling();
 
 };
 

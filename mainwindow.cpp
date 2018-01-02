@@ -25,6 +25,18 @@ void MainWindow::setupUI() {
     centralWidget = new QWidget(this);
     centralWidget->setGeometry(0, 0, w, h+20);
 
+    castlingLeftBtn = new QPushButton(this);
+    castlingLeftBtn->setText("◀ Рокировка");
+    castlingLeftBtn->setEnabled(false);
+    castlingLeftBtn->setGeometry(w - 2*castlingLeftBtn->width(), h - 4, castlingLeftBtn->width()+4, castlingLeftBtn->height());
+    connect(castlingLeftBtn, SIGNAL(clicked(bool)), this, SLOT(leftCastling()));
+
+    castlingRightBtn = new QPushButton(this);
+    castlingRightBtn->setText("Рокировка ▶");
+    castlingRightBtn->setEnabled(false);
+    castlingRightBtn->setGeometry(w - castlingRightBtn->width(), h - 4, castlingRightBtn->width()+4, castlingRightBtn->height());
+    connect(castlingRightBtn, SIGNAL(clicked(bool)), this, SLOT(rightCastling()));
+
     board = new Chessboard(this);
     board->setSceneRect(0, 0, w, h);
 
@@ -35,26 +47,23 @@ void MainWindow::setupUI() {
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->viewport()->setAcceptDrops(true);
 
-    //QPushButton *castlingBtn;
-    //QLabel *messageLabel;
-
-    castlingLeftBtn = new QPushButton(this);
-    castlingLeftBtn->setText("◀ Рокировка");
-    castlingLeftBtn->setEnabled(false);
-    castlingLeftBtn->setGeometry(w - 2*castlingLeftBtn->width(), h - 4, castlingLeftBtn->width()+4, castlingLeftBtn->height());
-
-    castlingRightBtn = new QPushButton(this);
-    castlingRightBtn->setText("Рокировка ▶");
-    castlingRightBtn->setEnabled(false);
-    castlingRightBtn->setGeometry(w - castlingRightBtn->width(), h - 4, castlingRightBtn->width()+4, castlingRightBtn->height());
-
     drawBtn = new QPushButton(this);
     drawBtn->setText("Ничья");
     drawBtn->setGeometry(w - 3*castlingRightBtn->width() + 8, h - 4, castlingRightBtn->width()+4, castlingRightBtn->height());
     connect(drawBtn, SIGNAL(clicked(bool)), this, SLOT(draw()));
 
+
+
 }
 
 void MainWindow::draw() {
     board->stopGame("Ничья.");
+}
+
+void MainWindow::leftCastling() {
+    board->leftCastling();
+}
+
+void MainWindow::rightCastling() {
+    board->rightCastling();
 }

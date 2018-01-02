@@ -34,6 +34,8 @@ private:
 
 public slots:
     void draw();
+    void leftCastling();
+    void rightCastling();
 };
 
 #endif // MAINWINDOW_H

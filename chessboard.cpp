@@ -1,6 +1,7 @@
 #include "chessboard.h"
 #include "mainwindow.h"
 #include <algorithm>
+#include <QDebug>
 #include <QMessageBox>
 
 using namespace std;
@@ -49,6 +50,21 @@ void Chessboard::toggleMove() {
         else
             W->messageLabel->setText("Ходят черные");
     }
+
+    if (isLeftCastlingAble()) {
+        W->castlingLeftBtn->setEnabled(true);
+    }
+    else {
+        W->castlingLeftBtn->setEnabled(false);
+    }
+
+    if (isRightCastlingAble()) {
+        W->castlingRightBtn->setEnabled(true);
+    }
+    else {
+        W->castlingRightBtn->setEnabled(false);
+    }
+
     for (int i=1; i<=8; i++)
         for (int j=1; j<=8; j++) {
             if (squares[i][j]->piece!=nullptr) {
@@ -262,6 +278,8 @@ void Chessboard::restoreGame() {
     isCheckNow = false;
     draggingPiece = nullptr;
     currentPlayer = blackPlayer;
+    noBlackLeftCastling = noBlackRightCastling = false;
+    noWhiteLeftCastling = noWhiteRightCastling = false;
 
     for (int i=1; i<=8; i++)
         for (int j=1; j<=8; j++)
@@ -355,6 +373,100 @@ void Chessboard::stopGame(QString message) {
                            QString("Игра окончена"),
                            message);
     restoreGame();
+}
+
+bool Chessboard::checkCastlingPosition(int x, int y) {
+    squares[y][x]->piece = new Piece(currentPlayer == whitePlayer ? Piece::white : Piece::black, Piece::king);
+    bool verdict = !isCheck();
+    delete squares[y][x]->piece;
+    squares[y][x]->piece = nullptr;
+    return verdict;
+}
+
+bool Chessboard::isLeftCastlingAble() {
+    if (currentPlayer == whitePlayer) {
+        if (noWhiteLeftCastling)
+            return false;
+        if (squares[8][2]->piece!=nullptr || squares[8][3]->piece!=nullptr || squares[8][4]->piece!=nullptr)
+            return false;
+        if (checkCastlingPosition(2,8) && checkCastlingPosition(3,8) && checkCastlingPosition(4,8))
+            return true;
+        return false;
+    }
+    else {
+        if (noBlackLeftCastling)
+            return false;
+        if (squares[1][2]->piece!=nullptr || squares[1][3]->piece!=nullptr || squares[1][4]->piece!=nullptr)
+            return false;
+        if (checkCastlingPosition(2,1) && checkCastlingPosition(3,1) && checkCastlingPosition(4,1))
+            return true;
+        return false;
+    }
+}
+
+void Chessboard::leftCastling() {
+    if (currentPlayer == whitePlayer) {
+        squares[8][3]->piece = squares[8][5]->piece;
+        squares[8][5]->piece = nullptr;
+        squares[8][3]->piece->setPos(80*2, 80*7);
+        squares[8][4]->piece = squares[8][1]->piece;
+        squares[8][1]->piece = nullptr;
+        squares[8][4]->piece->setPos(80*3, 80*7);
+        noWhiteLeftCastling = noWhiteRightCastling = true;
+    }
+    else {
+        squares[1][3]->piece = squares[1][5]->piece;
+        squares[1][5]->piece = nullptr;
+        squares[1][3]->piece->setPos(80*2, 0);
+        squares[1][4]->piece = squares[1][1]->piece;
+        squares[1][1]->piece = nullptr;
+        squares[1][4]->piece->setPos(80*3, 0);
+        noBlackLeftCastling = noBlackRightCastling = true;
+    }
+    toggleMove();
+}
+
+bool Chessboard::isRightCastlingAble() {
+    if (currentPlayer == whitePlayer) {
+        if (noWhiteLeftCastling)
+            return false;
+        if (squares[8][6]->piece!=nullptr || squares[8][7]->piece!=nullptr)
+            return false;
+        if (checkCastlingPosition(6,8) && checkCastlingPosition(7,8))
+            return true;
+        return false;
+    }
+    else {
+        if (noBlackLeftCastling)
+            return false;
+        if (squares[1][6]->piece!=nullptr || squares[1][7]->piece!=nullptr)
+            return false;
+        if (checkCastlingPosition(6,1) && checkCastlingPosition(7,1))
+            return true;
+        return false;
+    }
+}
+
+void Chessboard::rightCastling() {
+    if (currentPlayer == whitePlayer) {
+        squares[8][7]->piece = squares[8][5]->piece;
+        squares[8][5]->piece = nullptr;
+        squares[8][7]->piece->setPos(80*6, 80*7);
+        squares[8][6]->piece = squares[8][8]->piece;
+        squares[8][8]->piece = nullptr;
+        squares[8][6]->piece->setPos(80*5, 80*7);
+        noWhiteLeftCastling = noWhiteRightCastling = true;
+    }
+    else {
+        squares[1][7]->piece = squares[1][5]->piece;
+        squares[1][5]->piece = nullptr;
+        squares[1][7]->piece->setPos(80*6, 0);
+        squares[1][6]->piece = squares[1][8]->piece;
+        squares[1][8]->piece = nullptr;
+        squares[1][6]->piece->setPos(80*5, 0);
+        noBlackLeftCastling = noBlackRightCastling = true;
+    }
+    toggleMove();
 }
 
 void Chessboard::GodsHelp() {

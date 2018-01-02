@@ -65,6 +65,28 @@ void Piece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
             board->removeItem(board->squares[boardY][boardX]->piece);
             delete board->squares[boardY][boardX]->piece;
         }
+        if (type == rook) {
+            if (board->currentPlayer == Chessboard::whitePlayer) {
+                if (fromX == 1 && fromY == 8)
+                    board->noWhiteLeftCastling = true;
+                if (fromX == 8 && fromY == 8)
+                    board->noWhiteRightCastling = true;
+            }
+            else {
+                if (fromX == 1 && fromY == 1)
+                    board->noBlackLeftCastling = true;
+                if (fromX == 8 && fromY == 1)
+                    board->noBlackRightCastling = true;
+            }
+        }
+        if (type == king) {
+            if (board->currentPlayer == Chessboard::whitePlayer) {
+                board->noWhiteLeftCastling = board->noWhiteRightCastling = true;
+            }
+            else {
+                board->noBlackLeftCastling = board->noBlackRightCastling = true;
+            }
+        }
         board->squares[fromY][fromX]->piece = nullptr;
         board->squares[boardY][boardX]->piece = this;
         board->toggleMove();
