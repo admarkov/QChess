@@ -1,6 +1,7 @@
 #include "chessboard.h"
 #include "mainwindow.h"
 #include <algorithm>
+#include <QMessageBox>
 
 using namespace std;
 
@@ -8,12 +9,7 @@ Chessboard::Chessboard(QObject *parent)
     : QGraphicsScene(parent)
 {
 
-    isCheckNow = false;
-
     w = parent;
-    draggingPiece = nullptr;
-
-    currentPlayer = blackPlayer;
 
     for (int i=0 ;i<10; i++)
         for (int j=0; j<10; j++)
@@ -25,82 +21,7 @@ Chessboard::Chessboard(QObject *parent)
             addItem(squares[y][x]);
         }
 
-    squares[1][1]->piece = new Piece(Piece::black, Piece::rook);
-    addItem(squares[1][1]->piece);
-    squares[1][1]->piece->setPos(0, 0);
-
-    squares[1][2]->piece = new Piece(Piece::black, Piece::knight);
-    addItem(squares[1][2]->piece);
-    squares[1][2]->piece->setPos(80, 0);
-
-    squares[1][3]->piece = new Piece(Piece::black, Piece::bishop);
-    addItem(squares[1][3]->piece);
-    squares[1][3]->piece->setPos(80*2, 0);
-
-    squares[1][4]->piece = new Piece(Piece::black, Piece::queen);
-    addItem(squares[1][4]->piece);
-    squares[1][4]->piece->setPos(80*3, 0);
-
-    squares[1][5]->piece = new Piece(Piece::black, Piece::king);
-    addItem(squares[1][5]->piece);
-    squares[1][5]->piece->setPos(80*4, 0);
-
-    squares[1][6]->piece = new Piece(Piece::black, Piece::bishop);
-    addItem(squares[1][6]->piece);
-    squares[1][6]->piece->setPos(80*5, 0);
-
-    squares[1][7]->piece = new Piece(Piece::black, Piece::knight);
-    addItem(squares[1][7]->piece);
-    squares[1][7]->piece->setPos(80*6, 0);
-
-    squares[1][8]->piece = new Piece(Piece::black, Piece::rook);
-    addItem(squares[1][8]->piece);
-    squares[1][8]->piece->setPos(80*7, 0);
-
-
-    squares[8][1]->piece = new Piece(Piece::white, Piece::rook);
-    addItem(squares[8][1]->piece);
-    squares[8][1]->piece->setPos(0, 80*7);
-
-    squares[8][2]->piece = new Piece(Piece::white, Piece::knight);
-    addItem(squares[8][2]->piece);
-    squares[8][2]->piece->setPos(80, 80*7);
-
-    squares[8][3]->piece = new Piece(Piece::white, Piece::bishop);
-    addItem(squares[8][3]->piece);
-    squares[8][3]->piece->setPos(80*2, 80*7);
-
-    squares[8][4]->piece = new Piece(Piece::white, Piece::queen);
-    addItem(squares[8][4]->piece);
-    squares[8][4]->piece->setPos(80*3, 80*7);
-
-    squares[8][5]->piece = new Piece(Piece::white, Piece::king);
-    addItem(squares[8][5]->piece);
-    squares[8][5]->piece->setPos(80*4, 80*7);
-
-    squares[8][6]->piece = new Piece(Piece::white, Piece::bishop);
-    addItem(squares[8][6]->piece);
-    squares[8][6]->piece->setPos(80*5, 80*7);
-
-    squares[8][7]->piece = new Piece(Piece::white, Piece::knight);
-    addItem(squares[8][7]->piece);
-    squares[8][7]->piece->setPos(80*6, 80*7);
-
-    squares[8][8]->piece = new Piece(Piece::white, Piece::rook);
-    addItem(squares[8][8]->piece);
-    squares[8][8]->piece->setPos(80*7, 80*7);
-
-    for (int i=1; i<=8; i++) {
-        squares[2][i]->piece = new Piece(Piece::black, Piece::pawn);
-        addItem(squares[2][i]->piece);
-        squares[2][i]->piece->setPos(80*i-80, 80);
-
-        squares[7][i]->piece = new Piece(Piece::white, Piece::pawn);
-        addItem(squares[7][i]->piece);
-        squares[7][i]->piece->setPos(80*i-80, 80*6);
-    }
-
-    toggleMove();
+    restoreGame();
 
 }
 
@@ -331,4 +252,102 @@ void Chessboard::restoreSquares() {
             else
                 squares[i][j]->setBrush(QBrush(QColor("#d3d39e")));
         }
+}
+
+void Chessboard::restoreGame() {
+    isCheckNow = false;
+    draggingPiece = nullptr;
+    currentPlayer = blackPlayer;
+
+    for (int i=1; i<=8; i++)
+        for (int j=1; j<=8; j++)
+            if (squares[i][j]->piece!=nullptr) {
+                delete squares[i][j]->piece;
+                squares[i][j]->piece = nullptr;
+            }
+
+    squares[1][1]->piece = new Piece(Piece::black, Piece::rook);
+    addItem(squares[1][1]->piece);
+    squares[1][1]->piece->setPos(0, 0);
+
+    squares[1][2]->piece = new Piece(Piece::black, Piece::knight);
+    addItem(squares[1][2]->piece);
+    squares[1][2]->piece->setPos(80, 0);
+
+    squares[1][3]->piece = new Piece(Piece::black, Piece::bishop);
+    addItem(squares[1][3]->piece);
+    squares[1][3]->piece->setPos(80*2, 0);
+
+    squares[1][4]->piece = new Piece(Piece::black, Piece::queen);
+    addItem(squares[1][4]->piece);
+    squares[1][4]->piece->setPos(80*3, 0);
+
+    squares[1][5]->piece = new Piece(Piece::black, Piece::king);
+    addItem(squares[1][5]->piece);
+    squares[1][5]->piece->setPos(80*4, 0);
+
+    squares[1][6]->piece = new Piece(Piece::black, Piece::bishop);
+    addItem(squares[1][6]->piece);
+    squares[1][6]->piece->setPos(80*5, 0);
+
+    squares[1][7]->piece = new Piece(Piece::black, Piece::knight);
+    addItem(squares[1][7]->piece);
+    squares[1][7]->piece->setPos(80*6, 0);
+
+    squares[1][8]->piece = new Piece(Piece::black, Piece::rook);
+    addItem(squares[1][8]->piece);
+    squares[1][8]->piece->setPos(80*7, 0);
+
+
+    squares[8][1]->piece = new Piece(Piece::white, Piece::rook);
+    addItem(squares[8][1]->piece);
+    squares[8][1]->piece->setPos(0, 80*7);
+
+    squares[8][2]->piece = new Piece(Piece::white, Piece::knight);
+    addItem(squares[8][2]->piece);
+    squares[8][2]->piece->setPos(80, 80*7);
+
+    squares[8][3]->piece = new Piece(Piece::white, Piece::bishop);
+    addItem(squares[8][3]->piece);
+    squares[8][3]->piece->setPos(80*2, 80*7);
+
+    squares[8][4]->piece = new Piece(Piece::white, Piece::queen);
+    addItem(squares[8][4]->piece);
+    squares[8][4]->piece->setPos(80*3, 80*7);
+
+    squares[8][5]->piece = new Piece(Piece::white, Piece::king);
+    addItem(squares[8][5]->piece);
+    squares[8][5]->piece->setPos(80*4, 80*7);
+
+    squares[8][6]->piece = new Piece(Piece::white, Piece::bishop);
+    addItem(squares[8][6]->piece);
+    squares[8][6]->piece->setPos(80*5, 80*7);
+
+    squares[8][7]->piece = new Piece(Piece::white, Piece::knight);
+    addItem(squares[8][7]->piece);
+    squares[8][7]->piece->setPos(80*6, 80*7);
+
+    squares[8][8]->piece = new Piece(Piece::white, Piece::rook);
+    addItem(squares[8][8]->piece);
+    squares[8][8]->piece->setPos(80*7, 80*7);
+
+    for (int i=1; i<=8; i++) {
+        squares[2][i]->piece = new Piece(Piece::black, Piece::pawn);
+        addItem(squares[2][i]->piece);
+        squares[2][i]->piece->setPos(80*i-80, 80);
+
+        squares[7][i]->piece = new Piece(Piece::white, Piece::pawn);
+        addItem(squares[7][i]->piece);
+        squares[7][i]->piece->setPos(80*i-80, 80*6);
+    }
+
+    toggleMove();
+
+}
+
+void Chessboard::stopGame(QString message) {
+    QMessageBox::information(dynamic_cast<QWidget*>(this),
+                           QString("Игра окончена"),
+                           message);
+    restoreGame();
 }

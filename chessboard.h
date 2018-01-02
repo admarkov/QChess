@@ -31,7 +31,10 @@ public:
     bool isCheck();
 
     void restoreSquares();
+    void restoreGame();
     void GodsHelp();
+
+    void stopGame(QString message);
 
 };
 

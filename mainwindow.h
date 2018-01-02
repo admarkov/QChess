@@ -24,11 +24,16 @@ public:
     Chessboard *board;
     QGraphicsView *view;
 
-    QPushButton *castlingBtn;
+    QPushButton *castlingLeftBtn;
+    QPushButton *castlingRightBtn;
+    QPushButton *drawBtn;
     QLabel *messageLabel;
 
 private:
     void setupUI();
+
+public slots:
+    void draw();
 };
 
 #endif // MAINWINDOW_H
