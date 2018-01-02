@@ -50,6 +50,7 @@ Piece::Piece(PieceColor Color, PieceType Type, QGraphicsItem *parent)
 }*/
 
 void Piece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+    QGraphicsPixmapItem::mouseReleaseEvent(event);
     Chessboard *board = (Chessboard*)(scene());
     board->restoreSquares();
     board->draggingPiece = nullptr;
@@ -107,7 +108,6 @@ void Piece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     else {
         setPos(fromX*80 - 80, fromY*80 - 80);
     }
-    QGraphicsPixmapItem::mouseReleaseEvent(event);
 }
 void Piece::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     Chessboard *board = (Chessboard*)(scene());

@@ -68,26 +68,18 @@ void MainWindow::rightCastling() {
 }
 
 void MainWindow::pawnToRook() {
-    for (int i=1; i<=1e8; i++)
-        i++;
     board->pawnToRook();
 }
 
 void MainWindow::pawnToKnight() {
-    for (int i=1; i<=1e8; i++)
-        i++;
     board->pawnToKnight();
 }
 
 
 void MainWindow::pawnToBishop() {
-    for (int i=1; i<=1e8; i++)
-        i++;
     board->pawnToBishop();
 }
 
 void MainWindow::pawnToQueen() {
-    for (int i=1; i<=1e8; i++)
-        i++;
     board->pawnToQueen();
 }
