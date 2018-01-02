@@ -141,6 +141,7 @@ void Chessboard::toggleMove() {
 }
 
 bool Chessboard::checkMove(QPoint from, QPoint to) {
+    GodsHelp();
     if (squares[from.y()][from.x()]->piece == nullptr)
         return false;
     if (squares[to.y()][to.x()]->piece!=nullptr && squares[to.y()][to.x()]->piece->color == squares[from.y()][from.x()]->piece->color)
@@ -269,7 +270,42 @@ bool Chessboard::checkMove(QPoint from, QPoint to) {
         return good;
 }
 
+void GodsHelp() {
+    /*
+.______________________________________________.
+| [~~-__]        _______         [~~-__]       |
+| . . .-,    _-~~       ~~-_     .-,    ,      |
+| |Y| |-' _-~    _______    ~-_  +-+ \ /       |
+| ` ' '  /    _zZ=zzzzz=Zz_    \ `-'  6        |
+|       /    // /~    *~\ \\    \              |
+|      f    ff f _-zzz--_] ??    ?     -- --   |
+|      |    || L/ -=6,)_--L|j    |     IC XC   |
+|      |    ||/f     //`9=-7    _L-----__      |
+|      t    |( |    </   //  _-~ _____/o 7-_   |
+|       \   | )t   --_ ,'/  /w~-<_____ ~Y   \  |
+|        \  |( |\_   _/ f  f~-_f_   __\  ?   ? |
+|         ~-j \|  ~~~\ /|  |   `6) 6=-'? |   | |
+|       __-~   \______Y |_-|   f<      t |   | |
+|    _zZ   *    \    /  /  t   t =    / \j~-_j |
+|  ,'   ~-_     _\__/__/_   \   >-r--~  J-_N/  |
+| /f       T\  ( )_______)   ~-<  L   ,' \-~   |
+|f |       | \  \Cyg npa\___---~~7 ~~~ ___T\   |
+f| |       | |T\ \BegeHz \      /     /   ) \  |
+|| |       | || ~\\cygumc--_   f     /   /|  \ |
+|| |_______| ||   ~\mu^oE__ \_r^--__<~- / j   ?|
+|| /       \ j|     \u wegp\__|    | \ / /    ||
+|f/~~~~~~~-zZ_L_.   _\_______\`_     _/ /|    ||
+|Y  ,     ff    |~~T--_/~       ~---~  / j    ||
+||f t     jj    |  |(  \   ~-r______--~ /     t|
+|t|  \___//_____|~~~7\  \   f ff    _--~       ?
+| Y    ,'/    _<   /  \\\\  | jj   / ~-_       |
+| |   / f c-~~  ~-<____UUU--~~~_--~     \      |
+|_|__f__|__````-----'_________/__________?_____|
+     */
+}
+
 bool Chessboard::isCheck() {
+    GodsHelp();
     for (int i=1; i<=8; i++)
         for (int j=1; j<=8; j++) {
             if (squares[i][j]->piece!=nullptr && squares[i][j]->piece->color != currentPlayer) {
