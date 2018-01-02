@@ -29,6 +29,7 @@ Chessboard::Chessboard(QObject *parent)
             addItem(squares[y][x]);
         }
 
+    restoreSquares();
     restoreGame();
 
 }
@@ -275,9 +276,9 @@ void Chessboard::restoreSquares() {
     for (int i=1; i<=8; i++)
         for (int j=1; j<=8; j++) {
             if (squares[i][j]->color == Square::black)
-                squares[i][j]->setBrush(QBrush(QColor("#78785a")));
+                squares[i][j]->setBrush(QBrush(QColor("#4b2f39")));
             else
-                squares[i][j]->setBrush(QBrush(QColor("#d3d39e")));
+                squares[i][j]->setBrush(QBrush(QColor("#f9f9d7")));
         }
 }
 
