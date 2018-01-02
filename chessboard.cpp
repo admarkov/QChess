@@ -8,6 +8,8 @@ Chessboard::Chessboard(QObject *parent)
     : QGraphicsScene(parent)
 {
 
+    isCheckNow = false;
+
     w = parent;
     draggingPiece = nullptr;
 
@@ -254,7 +256,17 @@ bool Chessboard::checkMove(QPoint from, QPoint to) {
             }
         }
     }
-    return true;
+        bool good = true;
+        Piece *fromBefore = squares[from.y()][from.x()]->piece;
+        Piece *toBefore = squares[to.y()][to.x()]->piece;
+        squares[to.y()][to.x()]->piece = fromBefore;
+        squares[from.y()][from.x()]->piece = nullptr;
+        if (isCheck())
+            good = false;
+        squares[to.y()][to.x()]->piece = toBefore;
+        squares[from.y()][from.x()]->piece = fromBefore;
+        isCheckNow = true;
+        return good;
 }
 
 bool Chessboard::isCheck() {
@@ -263,12 +275,12 @@ bool Chessboard::isCheck() {
             if (squares[i][j]->piece!=nullptr && squares[i][j]->piece->color != currentPlayer) {
                 for (int ii=1; ii<=8; ii++)
                     for (int jj=1; jj<=8; jj++) {
-                        if (squares[ii][jj]->piece != nullptr && checkMove(QPoint(j,i), QPoint(jj, ii)) && squares[ii][jj]->piece->color==currentPlayer && squares[ii][jj]->piece->type == Piece::king)
-                            return true;
+                        if (squares[ii][jj]->piece != nullptr && squares[ii][jj]->piece->color==currentPlayer && squares[ii][jj]->piece->type == Piece::king && checkMove(QPoint(j,i), QPoint(jj, ii)))
+                            return isCheckNow = true;
                     }
             }
         }
-    return false;
+    return isCheckNow = false;
 }
 
 void Chessboard::restoreSquares() {

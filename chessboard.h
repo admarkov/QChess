@@ -10,6 +10,8 @@ class Chessboard : public QGraphicsScene
 
 public:
 
+    bool isCheckNow;
+
     Square* squares[10][10];
 
     enum PlayerType {blackPlayer, whitePlayer} currentPlayer;
