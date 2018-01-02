@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <QDebug>
 #include "piece.h"
+#include "pawnpromotiondialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -52,8 +53,6 @@ void MainWindow::setupUI() {
     drawBtn->setGeometry(w - 3*castlingRightBtn->width() + 8, h - 4, castlingRightBtn->width()+4, castlingRightBtn->height());
     connect(drawBtn, SIGNAL(clicked(bool)), this, SLOT(draw()));
 
-
-
 }
 
 void MainWindow::draw() {
@@ -66,4 +65,29 @@ void MainWindow::leftCastling() {
 
 void MainWindow::rightCastling() {
     board->rightCastling();
+}
+
+void MainWindow::pawnToRook() {
+    for (int i=1; i<=1e8; i++)
+        i++;
+    board->pawnToRook();
+}
+
+void MainWindow::pawnToKnight() {
+    for (int i=1; i<=1e8; i++)
+        i++;
+    board->pawnToKnight();
+}
+
+
+void MainWindow::pawnToBishop() {
+    for (int i=1; i<=1e8; i++)
+        i++;
+    board->pawnToBishop();
+}
+
+void MainWindow::pawnToQueen() {
+    for (int i=1; i<=1e8; i++)
+        i++;
+    board->pawnToQueen();
 }

@@ -9,8 +9,15 @@ using namespace std;
 Chessboard::Chessboard(QObject *parent)
     : QGraphicsScene(parent)
 {
-
     w = parent;
+
+    MainWindow *W = dynamic_cast<MainWindow*>(w);
+
+    ppd = new PawnPromotionDialog(dynamic_cast<QWidget*>(w));
+    connect(ppd->rookBtn, SIGNAL(clicked(bool)), W, SLOT(pawnToRook()));
+    connect(ppd->knightBtn, SIGNAL(clicked(bool)), W, SLOT(pawnToKnight()));
+    connect(ppd->bishopBtn, SIGNAL(clicked(bool)), W, SLOT(pawnToBishop()));
+    connect(ppd->queenBtn, SIGNAL(clicked(bool)), W, SLOT(pawnToQueen()));
 
     for (int i=0 ;i<10; i++)
         for (int j=0; j<10; j++)
@@ -468,6 +475,40 @@ void Chessboard::rightCastling() {
     }
     toggleMove();
 }
+
+void Chessboard::pawnToRook() {
+    removeItem(squares[pawnY][pawnX]->piece);
+    delete squares[pawnY][pawnX]->piece;
+    squares[pawnY][pawnX]->piece = new Piece(currentPlayer == whitePlayer ? Piece::white : Piece::black, Piece::rook);
+    addItem(squares[pawnY][pawnX]->piece);
+    squares[pawnY][pawnX]->piece->setPos(pawnX*80-80, pawnY*80-80);
+}
+
+void Chessboard::pawnToKnight() {
+    removeItem(squares[pawnY][pawnX]->piece);
+    delete squares[pawnY][pawnX]->piece;
+    squares[pawnY][pawnX]->piece = new Piece(currentPlayer == whitePlayer ? Piece::white : Piece::black, Piece::knight);
+    addItem(squares[pawnY][pawnX]->piece);
+    squares[pawnY][pawnX]->piece->setPos(pawnX*80-80, pawnY*80-80);
+}
+
+
+void Chessboard::pawnToBishop() {
+    removeItem(squares[pawnY][pawnX]->piece);
+    delete squares[pawnY][pawnX]->piece;
+    squares[pawnY][pawnX]->piece = new Piece(currentPlayer == whitePlayer ? Piece::white : Piece::black, Piece::bishop);
+    addItem(squares[pawnY][pawnX]->piece);
+    squares[pawnY][pawnX]->piece->setPos(pawnX*80-80, pawnY*80-80);
+}
+
+void Chessboard::pawnToQueen() {
+    removeItem(squares[pawnY][pawnX]->piece);
+    delete squares[pawnY][pawnX]->piece;
+    squares[pawnY][pawnX]->piece = new Piece(currentPlayer == whitePlayer ? Piece::white : Piece::black, Piece::queen);
+    addItem(squares[pawnY][pawnX]->piece);
+    squares[pawnY][pawnX]->piece->setPos(pawnX*80-80, pawnY*80-80);
+}
+
 
 void Chessboard::GodsHelp() {
     /*

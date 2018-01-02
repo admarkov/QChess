@@ -36,6 +36,11 @@ public slots:
     void draw();
     void leftCastling();
     void rightCastling();
+
+    void pawnToRook();
+    void pawnToKnight();
+    void pawnToBishop();
+    void pawnToQueen();
 };
 
 #endif // MAINWINDOW_H

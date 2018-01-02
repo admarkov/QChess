@@ -4,15 +4,20 @@
 #include <QGraphicsScene>
 #include "square.h"
 #include "piece.h"
+#include "pawnpromotiondialog.h"
 
 class Chessboard : public QGraphicsScene
 {
 
 public:
 
+    PawnPromotionDialog *ppd;
+
     bool isCheckNow;
     bool noBlackLeftCastling, noBlackRightCastling;
     bool noWhiteLeftCastling, noWhiteRightCastling;
+
+    int pawnX, pawnY;
 
     Square* squares[10][10];
 
@@ -44,6 +49,11 @@ public:
     bool checkCastlingPosition(int x, int y);
     void leftCastling();
     void rightCastling();
+
+    void pawnToRook();
+    void pawnToKnight();
+    void pawnToBishop();
+    void pawnToQueen();
 
 };
 

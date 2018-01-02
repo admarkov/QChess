@@ -28,13 +28,15 @@ SOURCES += \
         mainwindow.cpp \
     chessboard.cpp \
     square.cpp \
-    piece.cpp
+    piece.cpp \
+    pawnpromotiondialog.cpp
 
 HEADERS += \
         mainwindow.h \
     chessboard.h \
     square.h \
-    piece.h
+    piece.h \
+    pawnpromotiondialog.h
 
 RESOURCES += \
     images.qrc

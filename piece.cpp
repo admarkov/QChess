@@ -89,6 +89,19 @@ void Piece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
         }
         board->squares[fromY][fromX]->piece = nullptr;
         board->squares[boardY][boardX]->piece = this;
+        MainWindow *W = (MainWindow*)(board->w);
+        if (board->currentPlayer == Chessboard::blackPlayer && boardY == 8 && type == pawn) {
+            board->pawnX = boardX;
+            board->pawnY = boardY;
+            board->ppd->setColor(PawnPromotionDialog::black);
+            board->ppd->exec();
+        }
+        if (board->currentPlayer == Chessboard::whitePlayer && boardY == 1 && type == pawn) {
+            board->pawnX = boardX;
+            board->pawnY = boardY;
+            board->ppd->setColor(PawnPromotionDialog::white);
+            board->ppd->exec();
+        }
         board->toggleMove();
     }
     else {
