@@ -29,6 +29,7 @@ public:
 
     bool checkMove(QPoint from, QPoint to, bool forCheckCheck = false);
     bool isCheck();
+    bool isCheckmate();
 
     void restoreSquares();
     void restoreGame();

@@ -29,6 +29,10 @@ void Chessboard::toggleMove() {
     MainWindow *W = (MainWindow*)(w);
     if (currentPlayer == blackPlayer) {
         currentPlayer = whitePlayer;
+        if (isCheckmate()) {
+            stopGame("Мат! Выиграли черные.");
+            return;
+        }
         if (isCheck())
             W->messageLabel->setText("Ходят белые. Шах!");
         else
@@ -36,6 +40,10 @@ void Chessboard::toggleMove() {
     }
     else {
         currentPlayer = blackPlayer;
+        if (isCheckmate()) {
+            stopGame("Мат! Выиграли белые.");
+            return;
+        }
         if (isCheck())
             W->messageLabel->setText("Ходят черные. Шах!");
         else
@@ -59,41 +67,6 @@ void Chessboard::toggleMove() {
                 }
             }
         }
-}
-
-void Chessboard::GodsHelp() {
-    /*
-     *
-.______________________________________________.
-| [~~-__]        _______         [~~-__]       |
-| . . .-,    _-~~       ~~-_     .-,    ,      |
-| |Y| |-' _-~    _______    ~-_  +-+ \ /       |
-| ` ' '  /    _zZ=zzzzz=Zz_    \ `-'  6        |
-|       /    // /~    *~\ \\    \              |
-|      f    ff f _-zzz--_] ??    ?     -- --   |
-|      |    || L/ -=6,)_--L|j    |     IC XC   |
-|      |    ||/f     //`9=-7    _L-----__      |
-|      t    |( |    </   //  _-~ _____/o 7-_   |
-|       \   | )t   --_ ,'/  /w~-<_____ ~Y   \  |
-|        \  |( |\_   _/ f  f~-_f_   __\  ?   ? |
-|         ~-j \|  ~~~\ /|  |   `6) 6=-'? |   | |
-|       __-~   \______Y |_-|   f<      t |   | |
-|    _zZ   *    \    /  /  t   t =    / \j~-_j |
-|  ,'   ~-_     _\__/__/_   \   >-r--~  J-_N/  |
-| /f       T\  ( )_______)   ~-<  L   ,' \-~   |
-|f |       | \  \Cyg npa\___---~~7 ~~~ ___T\   |
-f| |       | |T\ \BegeHz \      /     /   ) \  |
-|| |       | || ~\\cygumc--_   f     /   /|  \ |
-|| |_______| ||   ~\mu^oE__ \_r^--__<~- / j   ?|
-|| /       \ j|     \u wegp\__|    | \ / /    ||
-|f/~~~~~~~-zZ_L_.   _\_______\`_     _/ /|    ||
-|Y  ,     ff    |~~T--_/~       ~---~  / j    ||
-||f t     jj    |  |(  \   ~-r______--~ /     t|
-|t|  \___//_____|~~~7\  \   f ff    _--~       ?
-| Y    ,'/    _<   /  \\\\  | jj   / ~-_       |
-| |   / f c-~~  ~-<____UUU--~~~_--~     \      |
-|_|__f__|__````-----'_________/__________?_____|
-     */
 }
 
 bool Chessboard::checkMove(QPoint from, QPoint to, bool forCheckCheck) {
@@ -215,6 +188,7 @@ bool Chessboard::checkMove(QPoint from, QPoint to, bool forCheckCheck) {
     }
     if (!forCheckCheck) {
         bool good = true;
+        bool wasCheck = isCheckNow;
         Piece *fromBefore = squares[from.y()][from.x()]->piece;
         Piece *toBefore = squares[to.y()][to.x()]->piece;
         squares[to.y()][to.x()]->piece = fromBefore;
@@ -223,7 +197,7 @@ bool Chessboard::checkMove(QPoint from, QPoint to, bool forCheckCheck) {
             good = false;
         squares[to.y()][to.x()]->piece = toBefore;
         squares[from.y()][from.x()]->piece = fromBefore;
-        isCheckNow = true;
+        isCheckNow = wasCheck;
         return good;
     }
     return true;
@@ -242,6 +216,36 @@ bool Chessboard::isCheck() {
             }
         }
     return isCheckNow = false;
+}
+
+bool Chessboard::isCheckmate() {
+    GodsHelp();
+    for (int i=1; i<=8; i++)
+        for (int j=1; j<=8; j++) {
+            if (squares[i][j]->piece!=nullptr && squares[i][j]->piece->color == currentPlayer) {
+                for (int ii=1; ii<=8; ii++)
+                    for (int jj=1; jj<=8; jj++) {
+                        {
+                            if (checkMove(QPoint(j, i), QPoint(jj, ii), true)) {
+                                bool good = false;
+                                QPoint from(j,i);
+                                QPoint to(jj, ii);
+                                Piece *fromBefore = squares[from.y()][from.x()]->piece;
+                                Piece *toBefore = squares[to.y()][to.x()]->piece;
+                                squares[to.y()][to.x()]->piece = fromBefore;
+                                squares[from.y()][from.x()]->piece = nullptr;
+                                if (!isCheck())
+                                    good = true;
+                                squares[to.y()][to.x()]->piece = toBefore;
+                                squares[from.y()][from.x()]->piece = fromBefore;
+                                if (good)
+                                    return false;
+                            }
+                        }
+                    }
+            }
+        }
+    return true;
 }
 
 void Chessboard::restoreSquares() {
@@ -351,3 +355,38 @@ void Chessboard::stopGame(QString message) {
                            message);
     restoreGame();
 }
+
+void Chessboard::GodsHelp() {
+    /*
+.______________________________________________.
+| [~~-__]        _______         [~~-__]       |
+| . . .-,    _-~~       ~~-_     .-,    ,      |
+| |Y| |-' _-~    _______    ~-_  +-+ \ /       |
+| ` ' '  /    _zZ=zzzzz=Zz_    \ `-'  6        |
+|       /    // /~    *~\ \\    \              |
+|      f    ff f _-zzz--_] ??    ?     -- --   |
+|      |    || L/ -=6,)_--L|j    |     IC XC   |
+|      |    ||/f     //`9=-7    _L-----__      |
+|      t    |( |    </   //  _-~ _____/o 7-_   |
+|       \   | )t   --_ ,'/  /w~-<_____ ~Y   \  |
+|        \  |( |\_   _/ f  f~-_f_   __\  ?   ? |
+|         ~-j \|  ~~~\ /|  |   `6) 6=-'? |   | |
+|       __-~   \______Y |_-|   f<      t |   | |
+|    _zZ   *    \    /  /  t   t =    / \j~-_j |
+|  ,'   ~-_     _\__/__/_   \   >-r--~  J-_N/  |
+| /f       T\  ( )_______)   ~-<  L   ,' \-~   |
+|f |       | \  \Cyg npa\___---~~7 ~~~ ___T\   |
+f| |       | |T\ \BegeHz \      /     /   ) \  |
+|| |       | || ~\\cygumc--_   f     /   /|  \ |
+|| |_______| ||   ~\mu^oE__ \_r^--__<~- / j   ?|
+|| /       \ j|     \u wegp\__|    | \ / /    ||
+|f/~~~~~~~-zZ_L_.   _\_______\`_     _/ /|    ||
+|Y  ,     ff    |~~T--_/~       ~---~  / j    ||
+||f t     jj    |  |(  \   ~-r______--~ /     t|
+|t|  \___//_____|~~~7\  \   f ff    _--~       ?
+| Y    ,'/    _<   /  \\\\  | jj   / ~-_       |
+| |   / f c-~~  ~-<____UUU--~~~_--~     \      |
+|_|__f__|__````-----'_________/__________?_____|
+     */
+}
+
