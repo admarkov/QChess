@@ -18,10 +18,10 @@ void MainWindow::setupUI() {
 
     setWindowTitle("QChess");
 
-    this->setFixedSize(w, h+20);
+    this->setFixedSize(w, h+28);
 
     messageLabel = new QLabel(this);
-    messageLabel->setGeometry(5, h, 400, 20);
+    messageLabel->setGeometry(5, h+4, 400, 20);
 
     centralWidget = new QWidget(this);
     centralWidget->setGeometry(0, 0, w, h+20);
@@ -29,13 +29,13 @@ void MainWindow::setupUI() {
     castlingLeftBtn = new QPushButton(this);
     castlingLeftBtn->setText("◀ Рокировка");
     castlingLeftBtn->setEnabled(false);
-    castlingLeftBtn->setGeometry(w - 2*castlingLeftBtn->width(), h - 4, castlingLeftBtn->width()+4, castlingLeftBtn->height());
+    castlingLeftBtn->setGeometry(w - 2*castlingLeftBtn->width()-10, h + 2, castlingLeftBtn->width(), castlingLeftBtn->height()-5);
     connect(castlingLeftBtn, SIGNAL(clicked(bool)), this, SLOT(leftCastling()));
 
     castlingRightBtn = new QPushButton(this);
     castlingRightBtn->setText("Рокировка ▶");
     castlingRightBtn->setEnabled(false);
-    castlingRightBtn->setGeometry(w - castlingRightBtn->width(), h - 4, castlingRightBtn->width()+4, castlingRightBtn->height());
+    castlingRightBtn->setGeometry(w - castlingRightBtn->width() - 5, h + 2, castlingRightBtn->width(), castlingRightBtn->height()-5);
     connect(castlingRightBtn, SIGNAL(clicked(bool)), this, SLOT(rightCastling()));
 
     board = new Chessboard(this);
@@ -50,7 +50,7 @@ void MainWindow::setupUI() {
 
     drawBtn = new QPushButton(this);
     drawBtn->setText("Ничья");
-    drawBtn->setGeometry(w - 3*castlingRightBtn->width() + 8, h - 4, castlingRightBtn->width()+4, castlingRightBtn->height());
+    drawBtn->setGeometry(w - 3*castlingRightBtn->width() - 15 , h + 2, castlingRightBtn->width(), castlingRightBtn->height());
     connect(drawBtn, SIGNAL(clicked(bool)), this, SLOT(draw()));
 
 }
