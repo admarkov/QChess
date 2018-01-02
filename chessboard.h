@@ -31,6 +31,7 @@ public:
     bool isCheck();
 
     void restoreSquares();
+    void GodsHelp();
 
 };
 
