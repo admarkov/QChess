@@ -3,6 +3,5 @@
 
 TODO:
 
-- Castling
 - Pawn promotion
 - Адаптация интерфейса для windows
