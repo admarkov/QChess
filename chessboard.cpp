@@ -106,11 +106,17 @@ void Chessboard::toggleMove() {
     MainWindow *W = (MainWindow*)(w);
     if (currentPlayer == blackPlayer) {
         currentPlayer = whitePlayer;
-        W->messageLabel->setText("Ходят белые");
+        if (isCheck())
+            W->messageLabel->setText("Ходят белые. Шах!");
+        else
+            W->messageLabel->setText("Ходят белые");
     }
     else {
         currentPlayer = blackPlayer;
-        W->messageLabel->setText("Ходят черные");
+        if (isCheck())
+            W->messageLabel->setText("Ходят черные. Шах!");
+        else
+            W->messageLabel->setText("Ходят черные");
     }
     for (int i=1; i<=8; i++)
         for (int j=1; j<=8; j++) {
@@ -133,6 +139,8 @@ void Chessboard::toggleMove() {
 }
 
 bool Chessboard::checkMove(QPoint from, QPoint to) {
+    if (squares[from.y()][from.x()]->piece == nullptr)
+        return false;
     if (squares[to.y()][to.x()]->piece!=nullptr && squares[to.y()][to.x()]->piece->color == squares[from.y()][from.x()]->piece->color)
         return false;
     if (to == from)
@@ -247,6 +255,20 @@ bool Chessboard::checkMove(QPoint from, QPoint to) {
         }
     }
     return true;
+}
+
+bool Chessboard::isCheck() {
+    for (int i=1; i<=8; i++)
+        for (int j=1; j<=8; j++) {
+            if (squares[i][j]->piece!=nullptr && squares[i][j]->piece->color != currentPlayer) {
+                for (int ii=1; ii<=8; ii++)
+                    for (int jj=1; jj<=8; jj++) {
+                        if (squares[ii][jj]->piece != nullptr && checkMove(QPoint(j,i), QPoint(jj, ii)) && squares[ii][jj]->piece->color==currentPlayer && squares[ii][jj]->piece->type == Piece::king)
+                            return true;
+                    }
+            }
+        }
+    return false;
 }
 
 void Chessboard::restoreSquares() {
